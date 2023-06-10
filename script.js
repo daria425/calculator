@@ -214,6 +214,7 @@ btnEquals.addEventListener("click", function () {
 });
 
 btnPlusMinus.addEventListener("click", function () {
+  //if upper screen does not include '-'
   if (!upperScreen.textContent.includes("-")) {
     //add a - to value currently on display
     upperScreen.textContent = "-" + upperScreen.textContent;
@@ -224,6 +225,14 @@ btnPlusMinus.addEventListener("click", function () {
     //in a string calculation or if equals is pressed append to num2
     else {
       num2 = "-" + num2;
+    }
+  } else {
+    //remove - in front of number
+    upperScreen.textContent = upperScreen.textContent.replace("-", "");
+    if (operator === "") {
+      num1 = num1.replace("-", "");
+    } else {
+      num2 = num2.replace("-", "");
     }
   }
 });
