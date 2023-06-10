@@ -17,6 +17,7 @@ const btnMultiply = document.querySelector("#multiply");
 const btnDivide = document.querySelector("#divide");
 const btnEquals = document.querySelector("#answer");
 const btnClear = document.querySelector("#clear");
+const btnPlusMinus = document.querySelector("#plusminus");
 
 const upperScreen = document.querySelector(".upper-screen");
 const lowerScreen = document.querySelector(".lower-screen");
@@ -120,6 +121,13 @@ const allFunctionBtns = document.querySelectorAll(".function");
 //run operate function with(num1=2, num2=3, operator=getlastelement of operators array)
 //save result as num1
 
+//adding a negative number
+//button +/- pressed
+//if button pressed and number is positive
+//add '-' in front of number
+//if button pressed and number is negative
+//remove '-' in front of number
+
 let firstNumArray = [];
 let secondNumArray = [];
 let operatorArray = [];
@@ -138,6 +146,7 @@ allNumberBtns.forEach((button) =>
       //join array into a string and save as new variable
       num1 = firstNumArray.join("");
       console.log("the first number is" + num1);
+      upperScreen.textContent = num1;
     } else if (operator !== "") {
       //number push to secondNumarray
       secondNumArray.push(button.value);
@@ -145,6 +154,7 @@ allNumberBtns.forEach((button) =>
       //join array into a string and save as new variable
       num2 = secondNumArray.join("");
       console.log("the second number is" + num2);
+      upperScreen.textContent = num2;
     }
   })
 );
@@ -174,6 +184,7 @@ allOperatorBtns.forEach((button) =>
         parseFloat(num2)
       );
       console.log(`the result is ${result}`);
+      lowerScreen.textContent = result;
       // save result to num1
       num1 = result;
       //clear num2
@@ -183,17 +194,38 @@ allOperatorBtns.forEach((button) =>
 );
 
 btnEquals.addEventListener("click", function () {
-  //get last element of operator array
-  let newOperator = operatorArray.slice(-1);
-  operatorArray.push(newOperator);
-  console.log(`the operator array is now ${operatorArray}`);
-  result = operate(parseFloat(num1), newOperator, parseFloat(num2));
-  console.log(`the result is ${result}`);
-  // save result to num1
-  num1 = result;
-  //clear num2
-  secondNumArray = [];
-  num2 = "";
+  //only run operation once per calculation
+  if (num2 !== "") {
+    //get last element of operator array
+    let newOperator = operatorArray.slice(-1);
+    //save operation
+    operatorArray.push(newOperator);
+    console.log(`the operator array is now ${operatorArray}`);
+    console.log(`operation currently running is ${num1}${newOperator}${num2}`);
+    result = operate(parseFloat(num1), newOperator, parseFloat(num2));
+    console.log(`the result is ${result}`);
+    lowerScreen.textContent = result;
+    // save result to num1
+    num1 = result;
+    //clear num2
+    secondNumArray = [];
+    num2 = "";
+  }
+});
+
+btnPlusMinus.addEventListener("click", function () {
+  if (!upperScreen.textContent.includes("-")) {
+    //add a - to value currently on display
+    upperScreen.textContent = "-" + upperScreen.textContent;
+    //num1 will only be displayed when it is not previously given a value so append to num1 if operator=''
+    if (operator === "") {
+      num1 = "-" + num1;
+    }
+    //in a string calculation or if equals is pressed append to num2
+    else {
+      num2 = "-" + num2;
+    }
+  }
 });
 
 function evaluate() {
