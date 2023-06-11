@@ -18,6 +18,7 @@ const btnDivide = document.querySelector("#divide");
 const btnEquals = document.querySelector("#answer");
 const btnClear = document.querySelector("#clear");
 const btnPlusMinus = document.querySelector("#plusminus");
+const btnBackspace = document.querySelector("#backspace");
 
 const upperScreen = document.querySelector(".upper-screen");
 const lowerScreen = document.querySelector(".lower-screen");
@@ -280,6 +281,19 @@ btnClear.addEventListener("click", function () {
   num2 = "";
 });
 
+btnBackspace.addEventListener("click", function () {
+  if (operator === "") {
+    firstNumArray = firstNumArray.slice(0, -1);
+    num1 = num1.slice(0, -1);
+    upperScreen.textContent = num1;
+    console.log(`the number is ${num1} and the array is ${firstNumArray}`);
+  } else {
+    secondNumArray = secondNumArray.slice(0, -1);
+    num2 = num2.slice(0, -1);
+    upperScreen.textContent = num2;
+    console.log(`the number is ${num2} and the array is ${secondNumArray}`);
+  }
+});
 // console.log(`the operation is ${num1} ${operator} ${num2}`);
 // result = operate(parseFloat(num1), operator, parseFloat(num2));
 // console.log(`the current result is ${result}`);
@@ -341,9 +355,3 @@ function operate(firstNumber, operator, secondNumber) {
   }
   return result;
 }
-
-//User clicks button
-//input stored in an array
-//if next button class=operator, array combined into one number=firstNumber
-//User clicks operator button=>operator button value=operator Parameter
-//=secondNumber
