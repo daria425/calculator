@@ -128,6 +128,23 @@ const allFunctionBtns = document.querySelectorAll(".function");
 //if button pressed and number is negative
 //remove '-' in front of number
 
+//what needs to happen?
+//if a number button is pressed after a result is displayed, but an operator has not been pressed
+//clear all values and start new calculation
+//
+//12 + 2
+//user pressed equals
+//conditions: num1=14, num2= '', operator=+, operator array.length=1
+//problem=function runs everytime a number is pressed afterwards because display value is not null and
+
+//functionality to start fresh if button is pressed  after result is displayed
+//result=23,
+//num1=23
+//operator=+
+//result display=23
+//condition: if operator is not null and display is not blank
+//clear all values
+
 let firstNumArray = [];
 let secondNumArray = [];
 let operatorArray = [];
@@ -237,6 +254,20 @@ btnPlusMinus.addEventListener("click", function () {
   }
 });
 
+btnDecimal.addEventListener("click", function () {
+  //user clicks button
+  //if upper screen does not contain decimal point
+  if (!upperScreen.textContent.includes(".")) {
+    upperScreen.textContent = upperScreen.textContent + ".";
+    if (operator === "") {
+      firstNumArray.push(".");
+    } else {
+      secondNumArray.push(".");
+    }
+  }
+  //add decimal point after number
+  //if upper screen includes decimal point do nothing
+});
 function evaluate() {
   if (firstNumArray.length !== 0 && secondNumArray.length !== 0) {
     operator;
