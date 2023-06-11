@@ -258,6 +258,7 @@ btnDecimal.addEventListener("click", function () {
   //user clicks button
   //if upper screen does not contain decimal point
   if (!upperScreen.textContent.includes(".")) {
+    //add decimal point after number
     upperScreen.textContent = upperScreen.textContent + ".";
     if (operator === "") {
       firstNumArray.push(".");
@@ -265,20 +266,27 @@ btnDecimal.addEventListener("click", function () {
       secondNumArray.push(".");
     }
   }
-  //add decimal point after number
   //if upper screen includes decimal point do nothing
 });
-function evaluate() {
-  if (firstNumArray.length !== 0 && secondNumArray.length !== 0) {
-    operator;
-    // console.log(`the operation is ${num1} ${operator} ${num2}`);
-    // result = operate(parseFloat(num1), operator, parseFloat(num2));
-    // console.log(`the current result is ${result}`);
-    // num1 = result;
-    // num2 = "";
-    // secondNumArray = [];
-  }
-}
+
+btnClear.addEventListener("click", function () {
+  upperScreen.textContent = "";
+  lowerScreen.textContent = "";
+  firstNumArray = [];
+  secondNumArray = [];
+  operatorArray = [];
+  operator = "";
+  num1 = "";
+  num2 = "";
+});
+
+// console.log(`the operation is ${num1} ${operator} ${num2}`);
+// result = operate(parseFloat(num1), operator, parseFloat(num2));
+// console.log(`the current result is ${result}`);
+// num1 = result;
+// num2 = "";
+// secondNumArray = [];
+
 // allOperatorBtns.forEach((button) =>
 //   button.addEventListener("click", function () {
 //     operator = button.value;
