@@ -138,25 +138,22 @@ const allFunctionBtns = document.querySelectorAll(".function");
 //conditions: num1=14, num2= '', operator=+, operator array.length=1
 //problem=function runs everytime a number is pressed afterwards because display value is not null and
 
-//functionality to start fresh if button is pressed  after result is displayed
-//result=23,
-//num1=23
-//operator=+
-//result display=23
-//condition: if operator is not null and display is not blank
-//clear all values
+//only display result after equals button is pressed
 
 let firstNumArray = [];
 let secondNumArray = [];
 let operatorArray = [];
+let resultArray = [];
 let operator = "";
 let num1 = "";
 let num2 = "";
 let num3 = "";
 let equalsBtnClicked = false;
+let result = "";
 
 allNumberBtns.forEach((button) =>
   button.addEventListener("click", function () {
+    checkZero();
     if (operator === "") {
       //number push to firstNumarray
       firstNumArray.push(button.value);
@@ -165,6 +162,17 @@ allNumberBtns.forEach((button) =>
       num1 = firstNumArray.join("");
       console.log("the first number is" + num1);
       upperScreen.textContent = num1;
+    } else if (operator !== "" && equalsBtnClicked) {
+      upperScreen.textContent = button.value;
+      lowerScreen.textContent = "";
+      firstNumArray = [];
+      firstNumArray.push(button.value);
+      secondNumArray = [];
+      operatorArray = [];
+      operator = "";
+      num1 = firstNumArray.join("");
+      num2 = "";
+      equalsBtnClicked = false;
     } else if (operator !== "") {
       //number push to secondNumarray
       secondNumArray.push(button.value);
@@ -172,13 +180,18 @@ allNumberBtns.forEach((button) =>
       //join array into a string and save as new variable
       num2 = secondNumArray.join("");
       console.log("the second number is" + num2);
-      upperScreen.textContent = num2;
+      upperScreen.textContent += num2;
+      console.log(
+        `the operator is ${operatorArray.length} characters long and the result array is ${resultArray.length} characters long`
+      );
     }
   })
 );
 
 allOperatorBtns.forEach((button) =>
   button.addEventListener("click", function () {
+    checkZero();
+    equalsBtnClicked = false;
     console.log("operator button clicked!");
     //save operator value as variable
     operator = button.value;
@@ -187,6 +200,7 @@ allOperatorBtns.forEach((button) =>
     console.log(
       `the operator is ${operator} and  the array is ${operatorArray}`
     );
+    upperScreen.textContent += button.value;
     //check if num1 has a value and num 2 has a value
     if (num1 !== "" && num2 !== "") {
       //  run operate function with values
@@ -202,9 +216,10 @@ allOperatorBtns.forEach((button) =>
         parseFloat(num2)
       );
       console.log(`the result is ${result}`);
-      lowerScreen.textContent = result;
+      // lowerScreen.textContent = result;
       // save result to num1
       num1 = result;
+      resultArray.push(result);
       //clear num2
       secondNumArray = [];
     }
@@ -222,10 +237,12 @@ btnEquals.addEventListener("click", function () {
     console.log(`operation currently running is ${num1}${newOperator}${num2}`);
     result = operate(parseFloat(num1), newOperator, parseFloat(num2));
     console.log(`the result is ${result}`);
+    equalsBtnClicked = true;
     lowerScreen.textContent = result;
     // save result to num1
     num1 = result;
     //clear num2
+    resultArray.push(result);
     secondNumArray = [];
     num2 = "";
   }
@@ -294,6 +311,44 @@ btnBackspace.addEventListener("click", function () {
     console.log(`the number is ${num2} and the array is ${secondNumArray}`);
   }
 });
+
+//adding keyboard support
+window.addEventListener("keydown", function (e) {
+  if (operator === "") {
+    if (e.code.includes("Digit")) {
+      console.log("event listener running now");
+      firstNumArray.push(e.key);
+      console.log(firstNumArray);
+      num1 = firstNumArray.join("");
+      upperScreen.textContent = num1;
+    }
+  } else {
+    if (e.code.includes("Digit")) {
+      console.log("event listener running now");
+      secondNumArray.push(e.key);
+      console.log(secondNumArray);
+      num2 = firstNumArray.join("");
+      upperScreen.textContent = num2;
+    }
+  }
+});
+
+//return to starting conditions if user tries to divide by 0
+function checkZero() {
+  if (lowerScreen.textContent.includes("no")) {
+    upperScreen.textContent = "";
+    lowerScreen.textContent = "";
+    firstNumArray = [];
+    secondNumArray = [];
+    operatorArray = [];
+    operator = "";
+    num1 = "";
+    num2 = "";
+  }
+}
+
+//if e.code includes('Digit)
+//push e.key to firstNumArray if operator is not equal to ''
 // console.log(`the operation is ${num1} ${operator} ${num2}`);
 // result = operate(parseFloat(num1), operator, parseFloat(num2));
 // console.log(`the current result is ${result}`);
@@ -347,11 +402,10 @@ function operate(firstNumber, operator, secondNumber) {
     result = subtract(firstNumber, secondNumber);
   } else if (operator == "*") {
     result = multiply(firstNumber, secondNumber);
-  } else if (operator == "/") {
+  } else if (operator == "/" && secondNumber !== 0) {
     result = divide(firstNumber, secondNumber);
-    if (secondNumber === 0) {
-      result = "no";
-    }
+  } else if (secondNumber === 0) {
+    result = "no";
   }
   return result;
 }
