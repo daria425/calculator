@@ -20,8 +20,8 @@ const btnClear = document.querySelector("#clear");
 const btnPlusMinus = document.querySelector("#plusminus");
 const btnBackspace = document.querySelector("#backspace");
 
-const upperScreen = document.querySelector(".upper-screen");
-const lowerScreen = document.querySelector(".lower-screen");
+const upperScreen = document.querySelector("#upper-screen-content");
+const lowerScreen = document.querySelector("#lower-screen-content");
 
 //Button groups
 const allBtns = document.querySelectorAll("button");
@@ -149,7 +149,9 @@ let num1 = "";
 let num2 = "";
 let num3 = "";
 let equalsBtnClicked = false;
+let operatorBtnClicked = false;
 let result = "";
+let reg = /[*+\/-]+|[A-Za-z]+/;
 
 allNumberBtns.forEach((button) =>
   button.addEventListener("click", function () {
@@ -191,18 +193,29 @@ allNumberBtns.forEach((button) =>
 allOperatorBtns.forEach((button) =>
   button.addEventListener("click", function () {
     checkZero();
-    equalsBtnClicked = false;
+    operatorBtnClicked = true;
+    if (equalsBtnClicked) {
+      upperScreen.textContent = result;
+      equalsBtnClicked = false;
+    }
     console.log("operator button clicked!");
     //save operator value as variable
     operator = button.value;
     //push operator to array
     operatorArray.push(button.value);
+    if (!upperScreen.textContent.at(-1).match(reg))
+      upperScreen.textContent += button.value;
+    else if (upperScreen.textContent.at(-1).match(reg)) {
+      upperScreen.textContent = upperScreen.textContent.replace(
+        upperScreen.textContent.slice(-1),
+        button.value
+      );
+    }
     console.log(
       `the operator is ${operator} and  the array is ${operatorArray}`
     );
-    upperScreen.textContent += button.value;
-    //check if num1 has a value and num 2 has a value
     if (num1 !== "" && num2 !== "") {
+      //check if num1 has a value and num 2 has a value
       //  run operate function with values
       console.log("found equation to evaluate");
       console.log(
@@ -225,6 +238,8 @@ allOperatorBtns.forEach((button) =>
     }
   })
 );
+
+//if operatorbuttonclicked=true
 
 btnEquals.addEventListener("click", function () {
   //only run operation once per calculation
