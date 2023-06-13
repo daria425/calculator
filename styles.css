@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: inherit;
-  font-family: "Arimo", sans-serif;
+  font-family: "Comfortaa", cursive;
 }
 
 html {
@@ -12,12 +12,16 @@ html {
 
 .calc-container {
   width: 32rem;
-  height: 44rem;
+  height: 46rem;
   background-color: grey;
   position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 2rem;
 }
 .upper-screen {
-  background-color: white;
+  background-color: #ffeaf5;
   width: 28rem;
   height: 4rem;
   margin: auto;
@@ -27,7 +31,7 @@ html {
   font-size: 2rem;
 }
 .lower-screen {
-  background-color: white;
+  background-color: #ffeaf5;
   width: 28rem;
   height: 2.5rem;
   margin: auto;
@@ -45,14 +49,15 @@ html {
 .button-container {
   width: 28rem;
   height: 28rem;
-  background-color: black;
   margin: auto;
+  margin-top: 2rem;
   height: auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   /* gap: 2rem; */
   justify-content: center;
+  background-color: #232325;
 }
 
 .number,
@@ -67,11 +72,25 @@ html {
   display: flex;
   width: 28rem;
   margin: auto;
+  background-color: #232325;
 }
 .function {
   flex-grow: 1;
   height: 5rem;
 }
+button {
+  background: radial-gradient(circle at bottom center, #6b6b6b 15px, #343338);
+  border: 2px solid #232325;
+  border-radius: 0.5rem;
+  font-size: 1.8rem;
+  color: #ffeaf5;
+  cursor: pointer;
+}
+button:focus {
+  background: radial-gradient(circle at bottom center, #d4818c 15px, #e26ba3);
+  color: #232325;
+}
+
 /* 1234
 5678
  */
