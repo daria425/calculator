@@ -182,7 +182,11 @@ allNumberBtns.forEach((button) =>
       //join array into a string and save as new variable
       num2 = secondNumArray.join("");
       console.log("the second number is" + num2);
-      upperScreen.textContent += num2;
+      if (upperScreen.textContent.at(-1).match(".")) {
+        upperScreen.textContent += secondNumArray[secondNumArray.length - 1];
+      } else {
+        upperScreen.textContent += num2;
+      }
       console.log(
         `the operator is ${operatorArray.length} characters long and the result array is ${resultArray.length} characters long`
       );
