@@ -39,7 +39,6 @@ html {
 }
 
 #lower-screen-content {
-  border: 1px solid;
   width: min-content;
   position: absolute;
   bottom: 0;
